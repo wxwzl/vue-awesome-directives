@@ -1,7 +1,10 @@
-const fs = require('fs')
-const chalk = require('chalk')
+const fs = require("fs");
+const chalk = require("chalk");
 
-const targets = (exports.targets = fs.readdirSync('packages').filter(f => {
+const targets = (exports.targets = fs.readdirSync("packages").filter((f) => {
+  if (f === "shareUtils") {
+    return false;
+  }
   if (!fs.statSync(`packages/${f}`).isDirectory()) {
     return false;
   }
@@ -9,31 +12,31 @@ const targets = (exports.targets = fs.readdirSync('packages').filter(f => {
     return false;
   }
   return true;
-}))
+}));
 
 exports.fuzzyMatchTarget = (partialTargets, includeAllMatching) => {
-  const matched = []
-  partialTargets.forEach(partialTarget => {
+  const matched = [];
+  partialTargets.forEach((partialTarget) => {
     for (const target of targets) {
       if (target.match(partialTarget)) {
-        matched.push(target)
+        matched.push(target);
         if (!includeAllMatching) {
-          break
+          break;
         }
       }
     }
-  })
+  });
   if (matched.length) {
-    return matched
+    return matched;
   } else {
-    console.log()
+    console.log();
     console.error(
-      `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
+      `  ${chalk.bgRed.white(" ERROR ")} ${chalk.red(
         `Target ${chalk.underline(partialTargets)} not found!`
       )}`
-    )
-    console.log()
+    );
+    console.log();
 
-    process.exit(1)
+    process.exit(1);
   }
-}
+};

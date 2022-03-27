@@ -23,7 +23,7 @@ export const install = function(Vue: VueConstructor, opts = {}) {
   
 
   directives.forEach(component => {
-    Vue.directive(component.name, component);
+    Vue.directive(component.name, component.directive);
   });
 
   
@@ -71,9 +71,9 @@ targets.forEach((name) => {
 
 var template = render(MAIN_TEMPLATE, {
   include:
-    exportComponentTemplate.join(endOfLine) +
+    ImportComponentTemplate.join(endOfLine) +
     endOfLine +
-    ImportComponentTemplate.join(endOfLine),
+    exportComponentTemplate.join(endOfLine),
   install: installTemplate.join("," + endOfLine),
   version: process.env.VERSION || require("../package.json").version,
   list: installTemplate.join("," + endOfLine),
