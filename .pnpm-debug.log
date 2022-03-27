@@ -1,0 +1,16 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "D:\\repository\\wxwzl\\gitee\\vue-awsome-directives"
+  },
+  "1 error pnpm": {
+    "code": "ERR_PNPM_CANNOT_REMOVE_MISSING_DEPS",
+    "hint": "Available dependencies: @babel/core, @babel/preset-env, @babel/preset-typescript, @commitlint/cli, @commitlint/config-conventional, @rollup/plugin-alias, @rollup/plugin-commonjs, @rollup/plugin-eslint, @rollup/plugin-json, @rollup/plugin-typescript, @types/jest, @types/node, @typescript-eslint/eslint-plugin, @typescript-eslint/parser, babel-jest, conventional-changelog-cli, core-js, cross-env, eslint, eslint-config-prettier, eslint-plugin-html, eslint-plugin-prettier, eslint-plugin-vue, husky, jest, lint-staged, path, prettier, rollup, rollup-plugin-dts, rollup-plugin-node-polyfills, rollup-plugin-node-resolve, rollup-plugin-terser, ts-jest, tslib, typedoc, typedoc-plugin-markdown, typescript, @wxwzl/eventemitter",
+    "err": {
+      "name": "pnpm",
+      "message": "Cannot remove 'pnpm': no such dependency found",
+      "code": "ERR_PNPM_CANNOT_REMOVE_MISSING_DEPS",
+      "stack": "pnpm: Cannot remove 'pnpm': no such dependency found\n    at Object.handler (C:\\Users\\zgkj4\\AppData\\Roaming\\npm\\pnpm-global\\5\\node_modules\\.pnpm\\pnpm@6.32.3\\node_modules\\pnpm\\dist\\pnpm.cjs:123041:15)\n    at async C:\\Users\\zgkj4\\AppData\\Roaming\\npm\\pnpm-global\\5\\node_modules\\.pnpm\\pnpm@6.32.3\\node_modules\\pnpm\\dist\\pnpm.cjs:182194:21\n    at async run (C:\\Users\\zgkj4\\AppData\\Roaming\\npm\\pnpm-global\\5\\node_modules\\.pnpm\\pnpm@6.32.3\\node_modules\\pnpm\\dist\\pnpm.cjs:182168:34)\n    at async runPnpm (C:\\Users\\zgkj4\\AppData\\Roaming\\npm\\pnpm-global\\5\\node_modules\\.pnpm\\pnpm@6.32.3\\node_modules\\pnpm\\dist\\pnpm.cjs:182387:5)\n    at async C:\\Users\\zgkj4\\AppData\\Roaming\\npm\\pnpm-global\\5\\node_modules\\.pnpm\\pnpm@6.32.3\\node_modules\\pnpm\\dist\\pnpm.cjs:182379:7"
+    }
+  }
+}
