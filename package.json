@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://gitee.com/wxwzl/vue-awsome-directives.git"
   },
-  "typings": "dist",
+  "typings": "dist/index",
   "keywords": [
     "directives",
     "vue",
