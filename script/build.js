@@ -52,18 +52,19 @@ async function runParallel(maxConcurrency, source, iteratorFn) {
   }
   return Promise.all(ret);
 }
-
+function isIndexDir(target){
+  return target === "all";
+}
 async function build(target) {
   let output = path.resolve(`dist/lib/${target}`);
   let input = path.resolve(`packages/${target}/src/index.ts`);
   let sourcemapFile = path.resolve(`dist/sourceMap/${target}`);
-  if (target === "all") {
+  if (isIndexDir(target)) {
     output = path.resolve(`dist/index`);
     input = path.resolve(`src/index.ts`);
     sourcemapFile = path.resolve(`dist/sourceMap`);
-  } else {
-    // if building a specific format, do not remove dist.
   }
+  // if building a specific format, do not remove dist.
   if (!formats) {
     await fs.remove(output);
   }
@@ -104,11 +105,11 @@ function checkAllSizes(targets) {
 }
 
 function checkSize(target) {
-  const pkgDir = path.resolve(`packages/${target}`);
-  checkFileSize(`${pkgDir}/dist/${target}.global.prod.js`);
-  if (!formats || formats.includes("global-runtime")) {
-    checkFileSize(`${pkgDir}/dist/${target}.runtime.global.prod.js`);
+  let pkgDir = path.resolve(`dist/lib/${target}`);
+  if(isIndexDir(target)){
+    pkgDir = path.resolve(`dist/index`);
   }
+  checkFileSize(`${pkgDir}/index.js`);
 }
 
 function checkFileSize(filePath) {
