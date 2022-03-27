@@ -21,8 +21,8 @@
     "paths": {
       "@/*": ["src/*"],
     },
-    "typeRoots": [ "node_modules/@types","node_modules/@wxwzl/eventemitter"],
-    "types":["@wxwzl/eventemitter","jest","node","vue"],
+    "typeRoots": [ "node_modules/@types",],
+    "types":["jest","node","vue"],
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
 
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,

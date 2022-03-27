@@ -1,5 +1,5 @@
 {
-  "name": "vue-awsome-directives",
+  "name": "vue-awesome-directives",
   "version": "0.0.1",
   "description": "a vue directives collection",
   "main": "dist/index/index.min.js",
@@ -78,8 +78,7 @@
     "uppercamelcase": "^3.0.0",
     "zlib": "^1.0.5"
   },
-  "dependencies": {
-    "@wxwzl/eventemitter": "^1.0.1",
+  "peerDependencies": {
     "vue": "2.6.14"
   },
   "engines": {
