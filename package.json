@@ -1,6 +1,6 @@
 {
   "name": "vue-awesome-directives",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a vue directives collection",
   "main": "dist/index/index.min.js",
   "scripts": {
