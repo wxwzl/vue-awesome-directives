@@ -87,7 +87,6 @@ export default {
                     return;
                   }
                   const srollTop = getScrollTop(target, rootNode);
-                  console.log(srollTop, "srollTop");
                   if (
                     (srollTop < target._scrollTop && !isEmpty(top)) ||
                     (srollTop > target._scrollTop && !isEmpty(bottom))

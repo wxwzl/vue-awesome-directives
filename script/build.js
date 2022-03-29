@@ -13,7 +13,7 @@ const devOnly = args.devOnly || args.d;
 const sourceMap = args.sourcemap || args.s;
 const buildAllMatching = args.all || args.a;
 const commit = execa.sync("git", ["rev-parse", "--HEAD"]).stdout.slice(0, 7);
-
+const dist="lib";
 run();
 
 async function run() {
@@ -56,13 +56,13 @@ function isIndexDir(target){
   return target === "all";
 }
 async function build(target) {
-  let output = path.resolve(`dist/lib/${target}`);
+  let output = path.resolve(`${dist}/${target}`);
   let input = path.resolve(`packages/${target}/src/index.ts`);
-  let sourcemapFile = path.resolve(`dist/sourceMap/${target}`);
+  let sourcemapFile = path.resolve(`${dist}/sourceMap/${target}`);
   if (isIndexDir(target)) {
-    output = path.resolve(`dist/index`);
+    output = path.resolve(`${dist}/index`);
     input = path.resolve(`src/index.ts`);
-    sourcemapFile = path.resolve(`dist/sourceMap`);
+    sourcemapFile = path.resolve(`${dist}/sourceMap`);
   }
   // if building a specific format, do not remove dist.
   if (!formats) {
@@ -105,9 +105,9 @@ function checkAllSizes(targets) {
 }
 
 function checkSize(target) {
-  let pkgDir = path.resolve(`dist/lib/${target}`);
+  let pkgDir = path.resolve(`${dist}/${target}`);
   if(isIndexDir(target)){
-    pkgDir = path.resolve(`dist/index`);
+    pkgDir = path.resolve(`${dist}/index`);
   }
   checkFileSize(`${pkgDir}/index.js`);
 }
