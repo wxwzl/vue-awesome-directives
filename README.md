@@ -6,6 +6,11 @@ vue 指令
 
 `pnpm add vue-awesome-directives -S`
 
+或
+
+`npm i vue-awesome-directives -S`
+
+
 ## 使用
 
 ### 全局引入
@@ -17,7 +22,28 @@ Vue.use(directive);
 ```
 
 ### 按需引入
-
+- 1、 安装[babel-plugin-component](https://github.com/ElementUI/babel-plugin-component)
+```
+ pnpm add babel-plugin-component -D
+ 或
+ npm i babel-plugin-component -D
+```
+- 2、将 .babelrc或babel.config.js 修改为：
+```
+module.exports = {
+  presets: [["@vue/cli-plugin-babel/preset"]],
+  plugins: [
+    [
+      "component",
+      {
+        libraryName: "vue-awesome-directives",
+        style: false,
+      },
+    ],
+  ],
+};
+```
+- 3、使用
 ```
 // 局部注册
 import { Sticky } from "vue-awesome-directives";
