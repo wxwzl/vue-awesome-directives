@@ -75,4 +75,25 @@ Vue.use(Sticky);
 
 - `v-sticky`: 不依赖css 的sticky属性，因为使用该属性的限制条件太多了，如：[https://github.com/w3c/csswg-drafts/issues/865](https://github.com/w3c/csswg-drafts/issues/865).该指令内部依赖了[`Intersection_Observer`](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)，需要兼容ie或低版本的同学可以引入[IntersectionObserver polyfill](https://www.npmjs.com/package/intersection-observer)这个polyfill来解决兼容性问题。关于Intersection_Observer_API兼容性见[详情](https://caniuse.com/?search=IntersectionObserver)
 
+```
+使用示例：
+
+<van-button
+    v-sticky="{ top: '3rem', zIndex: 1, left: 0, root: '#page' }"
+    :type="actualConfig.type"
+    :style="style"
+    :disabled="actualConfig.disabled"
+    :round="round"
+    :square="square"
+    :size="actualConfig.size"
+    :native-type="nativeType"
+    @click="onClick"
+  >
+    {{ actualConfig.btnText }}
+  </van-button>
+  
+
+  //其中root:可以是css选择器或一个dom对象，如果不填，默认为选取最近的一个滚动父节点
+```
+
 
