@@ -112,3 +112,38 @@ export function isSymbol(obj: any): obj is Symbol {
 export function isEmpty(obj: any): boolean {
   return obj === undefined || obj === null || obj === "";
 }
+
+export function getScrollTop(
+  currentNode: HTMLElement,
+  parentNode: HTMLElement
+) {
+  let total = 0,
+    node: HTMLElement | null = currentNode.parentNode as HTMLElement;
+  while (node && node != parentNode) {
+    const srollTop = node.scrollTop
+      ? node.scrollTop
+      : document.scrollingElement
+      ? document.scrollingElement.scrollTop
+      : 0;
+    total = total + srollTop;
+    node = node.parentNode as HTMLElement;
+  }
+  total =
+    total + node.scrollTop
+      ? node.scrollTop
+      : document.scrollingElement
+      ? document.scrollingElement.scrollTop
+      : 0;
+  return total;
+}
+
+export function getScrollYNode(currentNode?: HTMLElement) {
+  if (!currentNode) {
+    return document;
+  }
+  let node = currentNode.parentNode as HTMLElement;
+  while (node && node.scrollHeight <= node.clientHeight) {
+    node = currentNode.parentNode as HTMLElement;
+  }
+  return node ? node : document;
+}
