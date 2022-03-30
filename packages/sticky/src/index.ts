@@ -1,4 +1,5 @@
 import directive from "./directive";
+import Vue from "vue";
 const name = "Sticky";
 export default {
   name,

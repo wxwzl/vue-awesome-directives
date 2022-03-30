@@ -1,6 +1,6 @@
 {
   "name": "vue-awesome-directives",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a vue directives collection",
   "main": "dist/index/index.min.js",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/wxwzl/vue-awsome-directives.git"
+    "url": "https://gitee.com/wxwzl/vue-awesome-directives.git"
   },
   "typings": "lib/index",
   "keywords": [

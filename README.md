@@ -79,7 +79,7 @@ Vue.use(Sticky);
 使用示例：
 
 <van-button
-    v-sticky="{ top: '3rem', zIndex: 1, left: 0, root: '#page' }"
+    v-sticky="{ top: '3rem', zIndex: 1, left: 0, root: '#page' , disabled: isSticky,}"
     :type="actualConfig.type"
     :style="style"
     :disabled="actualConfig.disabled"

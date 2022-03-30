@@ -4,6 +4,7 @@ import {
   isEmpty,
   isObject,
   isString,
+  notEmpty,
 } from "packages/shareUtils";
 import { VNode } from "vue";
 import { DirectiveBinding } from "vue/types/options";
@@ -17,7 +18,7 @@ type CustomElement = HTMLElement & {
   _zIndex: string;
   lastState: boolean;
   _scrollTop: number;
-  _scrollCallBack: () => void;
+  _scrollCallBack: null | (() => void);
 };
 
 function getRoot(option: any, currentNode?: HTMLElement) {
@@ -29,98 +30,174 @@ function getRoot(option: any, currentNode?: HTMLElement) {
   }
   return getScrollYNode(currentNode);
 }
-export default {
-  bind: (el: HTMLElement, binding: DirectiveBinding) => {
-    const option = binding.value;
-    const top = option.top;
-    const bottom = option.bottom;
-    const left = option.left;
-    const right = option.right;
-    const zIndex = option.zIndex;
-    const rootNode: HTMLElement = getRoot(option, el);
-    let observer = observers.get(rootNode);
-    if (!observer) {
-      let options = {
-        root: rootNode,
-        // rootMargin: "0px",
-        threshold: 1.0,
-      };
-      //https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-      observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          console.log(entry.boundingClientRect, "entry.boundingClientRect");
-          console.log(entry.rootBounds, "entry.rootBounds");
-          const target = entry.target as CustomElement;
-          if (isEmpty(target.lastState)) {
-            target.lastState = entry.isIntersecting;
-            return;
-          }
-          if (target.lastState != entry.isIntersecting) {
-            if (target.lastState === true) {
-              target._position = target.style.position;
-              target.style.position = "fixed";
-              if (!isEmpty(top)) {
-                target._top = target.style.top;
-                target.style.top = top;
-              }
-              if (!isEmpty(bottom)) {
-                target._bottom = target.style.bottom;
-                target.style.bottom = bottom;
-              }
-              if (!isEmpty(left)) {
-                target._left = target.style.left;
-                target.style.left = left;
-              }
-              if (!isEmpty(right)) {
-                target._right = target.style.right;
-                target.style.right = right;
-              }
-              if (!isEmpty(zIndex)) {
-                target._zIndex = target.style.zIndex;
-                target.style.zIndex = zIndex;
-              }
-              Promise.resolve().then(() => {
-                target._scrollTop = getScrollTop(target, rootNode);
-                const callBack = () => {
-                  if (!target) {
-                    rootNode.removeEventListener("scroll", callBack);
-                    return;
-                  }
-                  const srollTop = getScrollTop(target, rootNode);
-                  if (
-                    (srollTop < target._scrollTop && !isEmpty(top)) ||
-                    (srollTop > target._scrollTop && !isEmpty(bottom))
-                  ) {
-                    if (!isEmpty(top)) {
-                      target.style.top = target._top;
-                    }
-                    if (!isEmpty(bottom)) {
-                      target.style.bottom = target._bottom;
-                    }
-                    if (!isEmpty(left)) {
-                      target.style.left = target._left;
-                    }
-                    if (!isEmpty(right)) {
-                      target.style.right = target._right;
-                    }
-                    if (!isEmpty(zIndex)) {
-                      target.style.zIndex = target._zIndex;
-                    }
-                    target.style.position = target._position;
-                    rootNode.removeEventListener("scroll", callBack);
-                  }
-                };
-                target._scrollCallBack = callBack;
-                rootNode.addEventListener("scroll", callBack, {
-                  passive: true,
-                });
-              });
+export interface Option {
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  zIndex?: string;
+  disabled?: boolean;
+}
+export function addSticky(el: HTMLElement, option: Option) {
+  const top = option.top;
+  const bottom = option.bottom;
+  const left = option.left;
+  const right = option.right;
+  const zIndex = option.zIndex;
+  const rootNode: HTMLElement = getRoot(option, el);
+  let observer = observers.get(rootNode);
+  if (!observer) {
+    let options = {
+      root: rootNode,
+      // rootMargin: "0px",
+      threshold: 1.0,
+    };
+    //https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const target = entry.target as CustomElement;
+        if (isEmpty(target.lastState)) {
+          target.lastState = entry.isIntersecting;
+          return;
+        }
+        /**
+         * 暂时只考虑从可见变为不可见时开启sticky的监听，忽略错过了可见变为不可见的时刻的情况(即启用该指令时
+         * 元素已经跑到不可见的位置，且继续按当前方向滚动是永远处于不可见状态的)。
+         *
+         * **/
+
+        if (target.lastState != entry.isIntersecting) {
+          if (target.lastState === true) {
+            const srcollTop = getScrollTop(target, rootNode);
+            target._scrollTop = srcollTop - target.clientHeight;
+            target._position = target.style.position;
+            target.style.position = "fixed";
+            if (notEmpty<string>(top)) {
+              target._top = target.style.top;
+              target.style.top = top;
             }
-            target.lastState = entry.isIntersecting;
+            if (notEmpty<string>(bottom)) {
+              target._bottom = target.style.bottom;
+              target.style.bottom = bottom;
+            }
+            if (notEmpty<string>(left)) {
+              target._left = target.style.left;
+              target.style.left = left;
+            }
+            if (notEmpty<string>(right)) {
+              target._right = target.style.right;
+              target.style.right = right;
+            }
+            if (notEmpty<string>(zIndex)) {
+              target._zIndex = target.style.zIndex;
+              target.style.zIndex = zIndex;
+            }
+            Promise.resolve().then(() => {
+              const callBack = () => {
+                if (!target) {
+                  rootNode.removeEventListener("scroll", callBack);
+                  return;
+                }
+                const srollTop = getScrollTop(target, rootNode);
+                if (
+                  (srollTop < target._scrollTop && notEmpty(top)) ||
+                  (srollTop > target._scrollTop && notEmpty(bottom))
+                ) {
+                  recoverStyle(target, option);
+                  rootNode.removeEventListener("scroll", callBack);
+                  target._scrollCallBack = null;
+                }
+              };
+              target._scrollCallBack = callBack;
+              rootNode.addEventListener("scroll", callBack, {
+                passive: true,
+              });
+            });
           }
-        });
-      }, options);
-      observer.observe(el);
+          target.lastState = entry.isIntersecting;
+        }
+      });
+    }, options);
+  }
+  observer.observe(el);
+}
+
+function removeScrollEventListener(el: HTMLElement, rootNode: HTMLElement) {
+  const _scrollCallBack = (el as CustomElement)._scrollCallBack;
+  if (rootNode && notEmpty<() => void>(_scrollCallBack)) {
+    rootNode.removeEventListener("scroll", _scrollCallBack);
+  }
+}
+
+function removeObserver(el: HTMLElement, rootNode: HTMLElement) {
+  const observer = observers.get(rootNode);
+  if (observer) {
+    observer.unobserve(el);
+    if (observer.takeRecords().length == 0) {
+      observer.disconnect();
+      observers.delete(rootNode);
+    }
+  }
+}
+function recoverStyle(target: CustomElement, option: Option) {
+  const top = option.top;
+  const bottom = option.bottom;
+  const left = option.left;
+  const right = option.right;
+  const zIndex = option.zIndex;
+  if (notEmpty<string>(top)) {
+    target.style.top = target._top;
+  }
+  if (notEmpty<string>(bottom)) {
+    target.style.bottom = target._bottom;
+  }
+  if (notEmpty<string>(left)) {
+    target.style.left = target._left;
+  }
+  if (notEmpty<string>(right)) {
+    target.style.right = target._right;
+  }
+  if (notEmpty<string>(zIndex)) {
+    target.style.zIndex = target._zIndex;
+  }
+  if (target._position !== undefined) {
+    target.style.position = target._position;
+  }
+}
+function unbind(el: HTMLElement, option: Option) {
+  const rootNode: HTMLElement = getRoot(option, el);
+  removeScrollEventListener(el, rootNode);
+  removeObserver(el, rootNode);
+}
+export default {
+  inserted: (el: HTMLElement, binding: DirectiveBinding) => {
+    const option = binding.value;
+    if (!option.disabled) {
+      Promise.resolve().then(() => {
+        addSticky(el, option);
+      });
+    }
+  },
+  update(el: HTMLElement, binding: DirectiveBinding) {
+    const oldValue = binding.oldValue as Option;
+    const newValue = binding.value as Option;
+    if (
+      oldValue.bottom != newValue.bottom ||
+      oldValue.top != newValue.top ||
+      oldValue.left != newValue.left ||
+      oldValue.right != newValue.right ||
+      oldValue.zIndex != newValue.zIndex ||
+      oldValue.disabled != newValue.disabled
+    ) {
+      if (oldValue.disabled === true && newValue.disabled != true) {
+        addSticky(el, newValue);
+        return;
+      }
+      if (oldValue.disabled != true && newValue.disabled === true) {
+        unbind(el, newValue);
+        return;
+      }
+      //todo:其他的情况
     }
   },
   unbind: (
@@ -130,20 +207,6 @@ export default {
     oldVnode: VNode
   ) => {
     const option = binding.value;
-    const rootNode: HTMLElement = getRoot(option, el);
-    rootNode &&
-      (el as CustomElement)._scrollCallBack &&
-      rootNode.removeEventListener(
-        "scroll",
-        (el as CustomElement)._scrollCallBack
-      );
-    let observer = observers.get(rootNode);
-    if (observer) {
-      observer.unobserve(el);
-      if (observer.takeRecords().length == 0) {
-        observer.disconnect();
-        observers.delete(rootNode);
-      }
-    }
+    unbind(el, option);
   },
 };

@@ -40,7 +40,7 @@ export function isArray<T>(obj: any): obj is Array<T> {
  * @param {*} obj
  * @return {*}  {obj is String}
  */
-export function isString(obj: any): obj is String {
+export function isString(obj: any): obj is string {
   return Object.prototype.toString.call(obj) == "[object String]";
 }
 
@@ -109,8 +109,12 @@ export function isSymbol(obj: any): obj is Symbol {
  * @param {*} obj
  * @return {*}  {boolean}
  */
-export function isEmpty(obj: any): boolean {
+export function isEmpty(obj: any): boolean{
   return obj === undefined || obj === null || obj === "";
+}
+
+export function notEmpty<T=any>(obj: any): obj is T{
+  return obj !== undefined && obj !== null && obj !== "";
 }
 
 export function getScrollTop(
@@ -143,7 +147,7 @@ export function getScrollYNode(currentNode?: HTMLElement) {
   }
   let node = currentNode.parentNode as HTMLElement;
   while (node && node.scrollHeight <= node.clientHeight) {
-    node = currentNode.parentNode as HTMLElement;
+    node = node.parentNode as HTMLElement;
   }
   return node ? node : document;
 }
