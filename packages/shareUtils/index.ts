@@ -109,35 +109,34 @@ export function isSymbol(obj: any): obj is Symbol {
  * @param {*} obj
  * @return {*}  {boolean}
  */
-export function isEmpty(obj: any): boolean{
+export function isEmpty(obj: any): boolean {
   return obj === undefined || obj === null || obj === "";
 }
 
-export function notEmpty<T=any>(obj: any): obj is T{
+export function notEmpty<T = any>(obj: any): obj is T {
   return obj !== undefined && obj !== null && obj !== "";
 }
 
-export function getScrollTop(
-  currentNode: HTMLElement,
-  parentNode: HTMLElement
-) {
+export function getScrollTop(currentNode: HTMLElement, parentNode: HTMLElement) {
   let total = 0,
-    node: HTMLElement | null = currentNode.parentNode as HTMLElement;
+    node: any = currentNode.parentNode;
   while (node && node != parentNode) {
-    const srollTop = node.scrollTop
+    var srollTop = node.scrollTop
       ? node.scrollTop
-      : document.scrollingElement
+      : node === document && document.scrollingElement
       ? document.scrollingElement.scrollTop
       : 0;
     total = total + srollTop;
-    node = node.parentNode as HTMLElement;
+    node = node.parentNode;
   }
-  total =
-    total + node.scrollTop
-      ? node.scrollTop
-      : document.scrollingElement
-      ? document.scrollingElement.scrollTop
-      : 0;
+  if (node) {
+    total =
+      total + node.scrollTop
+        ? node.scrollTop
+        : node === document && document.scrollingElement
+        ? document.scrollingElement.scrollTop
+        : 0;
+  }
   return total;
 }
 

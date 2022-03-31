@@ -37,6 +37,7 @@ export interface Option {
   right?: string;
   zIndex?: string;
   disabled?: boolean;
+  root?: string | HTMLElement;
 }
 export function addSticky(el: HTMLElement, option: Option) {
   const top = option.top;
@@ -45,6 +46,10 @@ export function addSticky(el: HTMLElement, option: Option) {
   const right = option.right;
   const zIndex = option.zIndex;
   const rootNode: HTMLElement = getRoot(option, el);
+  if (rootNode === null) {
+    console.error(`找不到root节点:${option.root}`);
+    return;
+  }
   let observer = observers.get(rootNode);
   if (!observer) {
     let options = {
