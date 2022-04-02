@@ -23,18 +23,38 @@ Vue.use(directive);
 
 ### 按需引入
 - 1、 安装[babel-plugin-component](https://github.com/ElementUI/babel-plugin-component)
+    或 安装[babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)
 ```
- pnpm add babel-plugin-component -D
+ pnpm add babel-plugin-component -D  
  或
  npm i babel-plugin-component -D
+ 或
+ pnpm add babel-plugin-import -D 
+ 或
+ npm i babel-plugin-import -D
 ```
 - 2、将 .babelrc或babel.config.js 修改为：
 ```
+// babel-plugin-component
 module.exports = {
-  presets: [["@vue/cli-plugin-babel/preset"]],
+  //...
   plugins: [
     [
       "component",
+      {
+        libraryName: "vue-awesome-directives",
+        style: false,
+      },
+    ],
+  ],
+};
+//或者babel-plugin-import
+
+module.exports = {
+  //...
+  plugins: [
+    [
+      "import",
       {
         libraryName: "vue-awesome-directives",
         style: false,
