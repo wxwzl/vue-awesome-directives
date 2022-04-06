@@ -8,7 +8,7 @@ import { terser } from "rollup-plugin-terser"; //压缩js代码，包括es6代�
 import alias from "@rollup/plugin-alias"; // 别名的解析
 import nodePolyfills from "rollup-plugin-node-polyfills"; //解决第三方依赖引入问题。
 import path from "path";
-import fs from "fs";
+// import fs from "fs";
 const resolvePath = (p) => path.resolve(__dirname, p);
 const outPutDir = process.env.output;
 const input = process.env.input;
