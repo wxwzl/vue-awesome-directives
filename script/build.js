@@ -60,14 +60,11 @@ async function build(target) {
   let input = path.resolve(`packages/${target}/src/index.ts`);
   let sourcemapFile = path.resolve(`${dist}/sourceMap/${target}`);
   if (isIndexDir(target)) {
-    output = path.resolve(`${dist}/index`);
+    output = path.resolve(`${dist}`);
     input = path.resolve(`src/index.ts`);
     sourcemapFile = path.resolve(`${dist}/sourceMap`);
   }
-  // if building a specific format, do not remove dist.
-  if (!formats) {
-    await fs.remove(output);
-  }
+  await fs.remove(output);
   const env = devOnly ? "development" : "production";
   await execa(
     "rollup",

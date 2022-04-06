@@ -1,8 +1,8 @@
 {
   "name": "vue-awesome-directives",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "a vue directives collection",
-  "main": "dist/index/index.min.js",
+  "main": "lib/index.min.js",
   "scripts": {
     "build": "node ./script/build.js -s true",
     "dev": "rollup -c -w",
@@ -76,6 +76,7 @@
     "tslib": "^2.3.0",
     "typescript": "^4.3.5",
     "uppercamelcase": "^3.0.0",
+    "vue": "2.6.14",
     "zlib": "^1.0.5"
   },
   "peerDependencies": {

@@ -17,12 +17,12 @@ const sourcemap = process.env.sourcemap;
 const sourcemapFile = process.env.sourcemapFile;
 const name = process.env.name;
 const externalStr = process.env.external;
-function cleanDir(dir) {
-  if (fs.existsSync(dir)) {
-    fs.rmdirSync(dir, { recursive: true, force: true });
-  }
-}
-cleanDir(outPutDir);
+// function cleanDir(dir) {
+//   if (fs.existsSync(dir)) {
+//     fs.rmdirSync(dir, { recursive: true, force: true });
+//   }
+// }
+// cleanDir(outPutDir);
 const customResolver = resolve({
   extensions: [".ts", ".js", ".jsx", ".json", ".less", ".vue"],
 });

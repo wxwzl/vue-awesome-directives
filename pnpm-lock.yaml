@@ -50,8 +50,6 @@ importers:
       uppercamelcase: ^3.0.0
       vue: 2.6.14
       zlib: ^1.0.5
-    dependencies:
-      vue: 2.6.14
     devDependencies:
       '@commitlint/cli': 12.1.4
       '@commitlint/config-conventional': 12.1.4
@@ -94,6 +92,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       uppercamelcase: 3.0.0
+      vue: 2.6.14
       zlib: 1.0.5
 
   packages/sticky:
@@ -5091,7 +5090,7 @@ packages:
 
   /vue/2.6.14:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==}
-    dev: false
+    dev: true
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
