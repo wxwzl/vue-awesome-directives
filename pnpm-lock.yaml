@@ -49,7 +49,6 @@ importers:
       typescript: ^4.3.5
       uppercamelcase: ^3.0.0
       vue: 2.6.14
-      zlib: ^1.0.5
     devDependencies:
       '@commitlint/cli': 12.1.4
       '@commitlint/config-conventional': 12.1.4
@@ -93,7 +92,6 @@ importers:
       typescript: 4.5.4
       uppercamelcase: 3.0.0
       vue: 2.6.14
-      zlib: 1.0.5
 
   packages/sticky:
     specifiers:
@@ -5254,9 +5252,4 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-    dev: true
-
-  /zlib/1.0.5:
-    resolution: {integrity: sha1-bnyXL8NxxkWmr7A6sUdp3vEU/MA=}
-    engines: {node: '>=0.2.0'}
     dev: true
