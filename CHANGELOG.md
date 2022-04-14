@@ -1,8 +1,9 @@
-## [0.0.5](https://gitee.com/wxwzl/vue-awesome-directives/compare/0.0.3...0.0.5) (2022-03-31)
+## [0.0.8](https://gitee.com/wxwzl/vue-awesome-directives/compare/0.0.3...0.0.8) (2022-04-14)
 
 
 ### Bug Fixes
 
+* 修复没有设置root时自动根据父节点的scrollHeight 和clientHeight关系及overflow-y属性的来获取滚动节点 ([f018ac5](https://gitee.com/wxwzl/vue-awesome-directives/commits/f018ac5e2e6f83abe07c3ee108fd6d837619a364))
 * 增加找不到root节点的空判断和错误提示 ([9c51c70](https://gitee.com/wxwzl/vue-awesome-directives/commits/9c51c7020452fc32f5e9b5de6c627997b4479baf))
 
 
