@@ -131,11 +131,12 @@ export function getScrollTop(currentNode: HTMLElement, parentNode: HTMLElement) 
   }
   if (node) {
     total =
-      total + node.scrollTop
+      total +
+      (node.scrollTop !== undefined
         ? node.scrollTop
         : node === document && document.scrollingElement
         ? document.scrollingElement.scrollTop
-        : 0;
+        : 0);
   }
   return total;
 }
@@ -145,8 +146,29 @@ export function getScrollYNode(currentNode?: HTMLElement) {
     return document;
   }
   let node = currentNode.parentNode as HTMLElement;
-  while (node && node.scrollHeight <= node.clientHeight) {
+  while (
+    node &&
+    node.scrollHeight <= node.clientHeight &&
+    !["auto", "hidden"].includes(getStyle(node, "overflow-y") || "")
+  ) {
     node = node.parentNode as HTMLElement;
   }
   return node ? node : document;
 }
+
+export const getStyle = function (element: HTMLElement, styleName: string): string | null {
+  if (!element || !styleName) return null;
+  // styleName = camelize(styleName);
+  if (styleName === "float") {
+    styleName = "cssFloat";
+  }
+  const styleObj = element.style as any;
+  try {
+    const style = styleObj[styleName];
+    if (style) return style;
+    const computed = (document.defaultView as any).getComputedStyle(element, "");
+    return computed ? computed[styleName] : "";
+  } catch (e) {
+    return styleObj && styleObj[styleName];
+  }
+};

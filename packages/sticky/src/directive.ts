@@ -205,12 +205,7 @@ export default {
       //todo:其他的情况
     }
   },
-  unbind: (
-    el: HTMLElement,
-    binding: DirectiveBinding,
-    vnode: VNode,
-    oldVnode: VNode
-  ) => {
+  unbind: (el: HTMLElement, binding: DirectiveBinding, vnode: VNode, oldVnode: VNode) => {
     const option = binding.value;
     unbind(el, option);
   },
